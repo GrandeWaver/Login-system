@@ -1,0 +1,43 @@
+{% extends "login_layout.html" %}
+
+{% block content %}
+    <div class="flex p-4 m-6 justify-center">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="/auth/login" >
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+              Email
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text">
+          </div>
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+              Password
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password">
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" id="button_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Sign In
+            </button>
+          </div>
+            <div style="font-size: 14px; margin-top: 15px;">Don't have an account? <a href="/signup" style="color: #0099ff;">Sign up</a></div>
+        </form>
+      </div>
+
+<script>
+check();
+
+function check() {
+    $(document).ready(function () {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if (username.length == 0){
+             $("#button_submit").prop('disabled', true)}
+        else if (password.length == 0){
+             $("#button_submit").prop('disabled', true)}
+        else {
+            $("#button_submit").prop('disabled', false);}
+    setTimeout(check, 500);
+    })};
+</script>
+{% endblock %}

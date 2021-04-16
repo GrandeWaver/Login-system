@@ -1,0 +1,164 @@
+{% extends "login_layout.html" %}
+
+{% block content %}
+    <div class="flex p-4 m-6 justify-center">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="/auth/signup" >
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="user_username">
+              Username
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="user_username" name="user_username" type="text">
+          </div>
+            <div id="CheckUsernameRequired" style="color:red; font-size:14px; margin-top: -5px; margin-bottom: 5px;"></div>
+             <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+              Email
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text">
+          </div>
+            <div id="CheckEmail" style="color:red; font-size:14px; margin-top: -5px; margin-bottom: 5px;"></div>
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+              Password
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password">
+          </div>
+            <div id="password_output" style="color:red; font-size:14px; margin-top: -25px; margin-bottom: 25px;"></div>
+          <div class="mb-6" style="margin-top:-14px;">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">
+              Confirm password
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirm_password" name="confirm_password" type="password">
+          </div>
+            <div id="confirm_password_output" style="color:red; font-size:14px; margin-top: -25px; margin-bottom: 25px;"></div>
+          <div class="flex items-center justify-between">
+            <button type="submit" id="button_submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Sign Up
+            </button>
+          </div>
+            <div style="font-size: 14px; margin-top: 15px; text-align: center;">Do you already have an account? <a href="/" style="color: #0099ff;">Sign in</a></div>
+        </form>
+      </div>
+
+    <script>
+    function CheckPassword() {
+        var password = $("#password").val();
+        var confirmPassword = $("#confirm_password").val();
+        var disabled_button = $("#button_submit").prop('disabled', true);
+
+        if (password.length != 0 && confirmPassword.length != 0 && password == confirmPassword && password.length >= 6 && password.length <= 16){
+            $("#password_output").html("");
+            $("#confirm_password_output").html("");
+            $("#button_submit").prop('disabled', false)}
+        else if (password != confirmPassword && confirmPassword.length != 0){
+            $("#confirm_password_output").html("Passwords does not match");
+            disabled_button}
+        else if (password.length < 6){
+            $("#password_output").html("Minimum 6 characters");
+            disabled_button}
+        else if (password.length >= 6 && password.length <= 16){
+            $("#password_output").html("")}
+        else if (password.length > 16){
+            $("#password_output").html("Maximum 16 characters")}
+    }
+
+    function CheckUsernameRequired() {
+        (async () => {
+        const res = await fetch(`/auth/dskf554jvgbl2234dskfbv553djfgb`);
+        const json = await res.json();
+
+        var username = $("#user_username").val();
+
+        for (var i in json){
+            if (username == json[i].nickname){
+                var IsInDB = true;
+            }
+        }
+        var disabled_button = $("#button_submit").prop('disabled', true);
+
+        if (IsInDB == true){
+            $("#CheckUsernameRequired").html("Username is already registered with us.");
+            disabled_button}
+        else if (username.length == 0){
+            $("#CheckUsernameRequired").html("Field required");
+            disabled_button}
+        else if (username.length < 6){
+            $("#CheckUsernameRequired").html("Minimum 6 characters");
+            disabled_button;}
+        else if (username.length > 16){
+            $("#CheckUsernameRequired").html("Maximum 16 characters");
+            disabled_button;}
+        else
+            $("#CheckUsernameRequired").html("");
+                 })();}
+
+
+    function validateEmail(email) {
+          const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+        }
+
+
+         function CheckEmailRequired() {
+            (async () => {
+            const res = await fetch(`/auth/dskf554jvgbl2234dskfbv553djfgb`);
+            const json = await res.json();
+
+            var username = $("#username").val();
+
+            for (var i in json){
+                if (username == json[i].username){
+                    var IsInDB = true;
+                }
+            }
+            var disabled_button = $("#button_submit").prop('disabled', true);
+            var warning = `Email is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
+
+
+            if (IsInDB){
+                $("#CheckEmail").html(warning);
+                disabled_button;}
+
+                     })();}
+
+
+        function validate() {
+          const $result = $("#CheckEmail");
+          const email = $("#username").val();
+          $result.text("");
+
+          if (validateEmail(email) == false) {
+            $result.text("Email is not valid");
+            $result.css("color", "red");
+          }
+        }
+
+        function check() {
+            $(document).ready(function () {
+                var username = $("#user_username").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm_password").val();
+                if (username.length == 0){
+                     $("#button_submit").prop('disabled', true)}
+                else if (password.length == 0){
+                     $("#button_submit").prop('disabled', true)}
+                else if (confirmPassword.length == 0){
+                     $("#button_submit").prop('disabled', true)}
+            setTimeout(check, 500);
+            })};
+
+        $(document).ready(function () {
+           $("#password").keyup(CheckPassword);
+           $("#confirm_password").keyup(CheckPassword);
+           $("#username").keyup(CheckEmailRequired);
+           $("#username").keyup(validate);
+        });
+
+        $(document).ready(function () {
+        $("#user_username").keyup(CheckUsernameRequired)});
+
+        check();
+
+    </script>
+
+{% endblock %}

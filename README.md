@@ -5,4 +5,4 @@ My amateur login system
 2. Configure config.py file
 3. Install requires.txt (pip3 install requires.txt)
 4. Go to the project folder and type in cmd: uvicorn main:app
-5. voilà! You have login system on your own.
+5. Voilà! You have login system on your own.

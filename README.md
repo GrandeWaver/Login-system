@@ -6,3 +6,5 @@ My amateur login system
 3. Install requires.txt (pip3 install requires.txt)
 4. Go to the project folder and type in cmd: uvicorn main:app
 5. Voilà! You have login system on your own.
+
+(btw my version of python: 3.8)

@@ -49,7 +49,12 @@
         if (password.length != 0 && confirmPassword.length != 0 && password == confirmPassword && password.length >= 6 && password.length <= 16){
             $("#password_output").html("");
             $("#confirm_password_output").html("");
-            $("#button_submit").prop('disabled', false)}
+            $("#button_submit").prop('disabled', false)
+            CheckEmailRequired();
+            validate_email();
+            CheckUsername();
+            CheckUsernameRequired();
+            CheckUsernameRequired();}
         else if (password != confirmPassword && confirmPassword.length != 0){
             $("#confirm_password_output").html("Passwords does not match");
             disabled_button}
@@ -62,35 +67,43 @@
             $("#password_output").html("Maximum 16 characters")}
     }
 
-    function CheckUsernameRequired() {
-        (async () => {
-        const res = await fetch(`/auth/dskf554jvgbl2234dskfbv553djfgb`);
-        const json = await res.json();
-
+    function CheckUsername() {
         var username = $("#user_username").val();
-
-        for (var i in json){
-            if (username == json[i].nickname){
-                var IsInDB = true;
-            }
-        }
         var disabled_button = $("#button_submit").prop('disabled', true);
 
-        if (IsInDB == true){
-            $("#CheckUsernameRequired").html("Username is already registered with us.");
-            disabled_button}
-        else if (username.length == 0){
-            $("#CheckUsernameRequired").html("Field required");
-            disabled_button}
+        if (username.length != 0 && username.length >= 6 && username.length <= 16){
+            $("#CheckUsernameRequired").html("");
+            $("#button_submit").prop('disabled', false)}
         else if (username.length < 6){
             $("#CheckUsernameRequired").html("Minimum 6 characters");
-            disabled_button;}
+            disabled_button}
+        else if (username.length >= 6 && username.length <= 16){
+            $("#CheckUsernameRequired").html("")}
         else if (username.length > 16){
-            $("#CheckUsernameRequired").html("Maximum 16 characters");
-            disabled_button;}
-        else
-            $("#CheckUsernameRequired").html("");
-                 })();}
+            $("#CheckUsernameRequired").html("Maximum 16 characters")}
+    }
+
+
+      function CheckUsernameRequired() {
+            (async () => {
+            var username = $("#user_username").val();
+
+            const res = await fetch(`/auth/username/db/results/?q=`+username);
+            const json = await res.json();
+
+            var result = json.results[0];
+
+            if (typeof result !== "undefined"){
+                    var IsInDB = true;}
+
+            var disabled_button = $("#button_submit").prop('disabled', true);
+            var warning = `Username is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
+
+
+            if (IsInDB){
+                $("#CheckUsernameRequired").html(warning);
+                disabled_button;}
+                     })();}
 
 
     function validateEmail(email) {
@@ -99,30 +112,29 @@
         }
 
 
-         function CheckEmailRequired() {
+      function CheckEmailRequired() {
             (async () => {
-            const res = await fetch(`/auth/dskf554jvgbl2234dskfbv553djfgb`);
-            const json = await res.json();
-
             var username = $("#username").val();
 
-            for (var i in json){
-                if (username == json[i].username){
-                    var IsInDB = true;
-                }
-            }
+            const res = await fetch(`/auth/email/db/results/?q=`+username);
+            const json = await res.json();
+
+            var result = json.results[0];
+
+            if (typeof result !== "undefined"){
+                    var IsInDB = true;}
+
             var disabled_button = $("#button_submit").prop('disabled', true);
-            var warning = `Email is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
+            var warning = `Username is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
 
 
             if (IsInDB){
                 $("#CheckEmail").html(warning);
                 disabled_button;}
-
                      })();}
 
 
-        function validate() {
+        function validate_email() {
           const $result = $("#CheckEmail");
           const email = $("#username").val();
           $result.text("");
@@ -132,6 +144,7 @@
             $result.css("color", "red");
           }
         }
+
 
         function check() {
             $(document).ready(function () {
@@ -151,11 +164,12 @@
            $("#password").keyup(CheckPassword);
            $("#confirm_password").keyup(CheckPassword);
            $("#username").keyup(CheckEmailRequired);
-           $("#username").keyup(validate);
+           $("#username").keyup(validate_email);
+           $("#user_username").keyup(CheckUsername);
+           $("#user_username").keyup(CheckUsernameRequired);
+           $("#username").keyup(CheckUsernameRequired);
         });
 
-        $(document).ready(function () {
-        $("#user_username").keyup(CheckUsernameRequired)});
 
         check();
 

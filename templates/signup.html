@@ -49,12 +49,7 @@
         if (password.length != 0 && confirmPassword.length != 0 && password == confirmPassword && password.length >= 6 && password.length <= 16){
             $("#password_output").html("");
             $("#confirm_password_output").html("");
-            $("#button_submit").prop('disabled', false)
-            CheckEmailRequired();
-            validate_email();
-            CheckUsername();
-            CheckUsernameRequired();
-            CheckUsernameRequired();}
+            $("#button_submit").prop('disabled', false)}
         else if (password != confirmPassword && confirmPassword.length != 0){
             $("#confirm_password_output").html("Passwords does not match");
             disabled_button}
@@ -95,6 +90,8 @@
 
             if (typeof result !== "undefined"){
                     var IsInDB = true;}
+            else {
+                    var IsInDB = false;}
 
             var disabled_button = $("#button_submit").prop('disabled', true);
             var warning = `Username is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
@@ -103,6 +100,7 @@
             if (IsInDB){
                 $("#CheckUsernameRequired").html(warning);
                 disabled_button;}
+
                      })();}
 
 

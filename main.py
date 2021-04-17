@@ -148,21 +148,6 @@ def loginwithCreds(request: Request):
     return templates.TemplateResponse("invalid_signup.html", {"request": request})
 
 
-@app.get('/auth/dskf554jvgbl2234dskfbv553djfgb')
-def check_username():
-    connection = sqlite3.connect(config.DB_FILE)
-    connection.row_factory = sqlite3.Row
-    cursor = connection.cursor()
-
-    cursor.execute("""
-            SELECT username, nickname
-            FROM account
-        """)
-
-    user = cursor.fetchall()
-    return user
-
-
 def change_password(in_email: str, in_password: str):
     connection = sqlite3.connect(config.DB_FILE)
     connection.row_factory = sqlite3.Row
@@ -238,3 +223,47 @@ def send_code(request: Request, username: str = Form(...)):
 
     send_email.verification_code(username, code)
     return templates.TemplateResponse("reset_password.html", {"request": request, "email": username})
+
+
+def search_username(value: str):
+    connection = sqlite3.connect(config.DB_FILE)
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT nickname FROM account
+        where nickname like (?)
+    """, (value, ))
+
+    rows = cursor.fetchall()
+    dictionary = list(rows)
+    return dictionary
+
+
+def search_email(value: str):
+    connection = sqlite3.connect(config.DB_FILE)
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT username FROM account
+        where username like (?)
+    """, (value, ))
+
+    rows = cursor.fetchall()
+    dictionary = list(rows)
+    return dictionary
+
+
+@app.get('/auth/username/db/results')
+def check_username(request: Request):
+    q = request.query_params.get('q', False)
+    result = search_username(q)
+    return {'results': result}
+
+
+@app.get('/auth/email/db/results')
+def check_username(request: Request):
+    q = request.query_params.get('q', False)
+    result = search_email(q)
+    return {'results': result}

@@ -89,9 +89,13 @@
             var result = json.results[0];
 
             if (typeof result !== "undefined"){
-                    var IsInDB = true;}
+                    var IsInDB = true;
+                    document.getElementById("password").disabled = true;
+                    document.getElementById("confirm_password").disabled = true;}
             else {
-                    var IsInDB = false;}
+                    var IsInDB = false;
+                    document.getElementById("password").disabled = false;
+                    document.getElementById("confirm_password").disabled = false;}
 
             var disabled_button = $("#button_submit").prop('disabled', true);
             var warning = `Username is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`
@@ -120,7 +124,12 @@
             var result = json.results[0];
 
             if (typeof result !== "undefined"){
-                    var IsInDB = true;}
+                    var IsInDB = true;
+                    document.getElementById("password").disabled = true;
+                    document.getElementById("confirm_password").disabled = true;}
+            else {
+                    var IsInDB = false;
+                    CheckUsernameRequired()}
 
             var disabled_button = $("#button_submit").prop('disabled', true);
             var warning = `Username is already registered with us.<br>If it's you try <a href="/" style="color: #0099ff;">Login</a>`

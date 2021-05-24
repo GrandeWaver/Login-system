@@ -14,4 +14,6 @@ My amateur login system
 
 ![Alt Text](https://media.giphy.com/media/g74b8d1JfAYlgLAbYA/giphy.gif)
 
+![Alt Text](https://media.giphy.com/media/qnawutbBnMn3u02XgP/giphy.gif)
+
 

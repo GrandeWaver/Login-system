@@ -17,7 +17,7 @@ SECRET = config.secret
 
 templates = Jinja2Templates(directory="templates")
 
-manager = LoginManager(SECRET, token_url="/auth/login", use_cookie=True)
+manager = LoginManager(SECRET, tokenUrl="/auth/login", use_cookie=True)
 manager.cookie_name = config.cookie_name
 
 

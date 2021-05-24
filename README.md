@@ -10,4 +10,5 @@ My amateur login system
 
 (btw my version of python: 3.8.5)
 
-https://media.giphy.com/media/b2d4aN4ArSbqjTlhI1/giphy.gif
+![Alt Text](https://media.giphy.com/media/b2d4aN4ArSbqjTlhI1/giphy.gif)
+

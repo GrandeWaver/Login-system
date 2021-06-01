@@ -1,5 +1,5 @@
 # Login-system
-My amateur login system
+My login system in Fast API
 
 1. Create email account (https://accounts.google.com/signup) for login-system and turn-on this option: (https://myaccount.google.com/lesssecureapps)
 2. Configure config.py file
